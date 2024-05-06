@@ -1,0 +1,31 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="shanda:Web exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/shanda_Web_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="shanda/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="shanda" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.8.9" />
+          <element id="library" level="project" name="Maven: com.google.protobuf:protobuf-java:2.6.0" />
+          <element id="library" level="project" name="Maven: io.micrometer:micrometer-commons:1.12.4" />
+          <element id="library" level="project" name="Maven: io.micrometer:micrometer-observation:1.12.4" />
+          <element id="library" level="project" name="Maven: mysql:mysql-connector-java:8.0.12" />
+          <element id="library" level="project" name="Maven: org.apache.tomcat.embed:tomcat-embed-core:9.0.46" />
+          <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-annotations-api:9.0.46" />
+          <element id="library" level="project" name="Maven: org.mortbay.jetty:servlet-api:2.5-20081211" />
+          <element id="library" level="project" name="Maven: org.projectlombok:lombok:1.18.16" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-aop:6.1.5" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-beans:6.1.5" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-context:6.1.5" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-core:6.1.5" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-expression:6.1.5" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-jcl:6.1.5" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-web:5.2.15.RELEASE" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
