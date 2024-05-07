@@ -81,7 +81,7 @@ public class dingdanController extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         String data = request.getParameter("data");
         Gson gson = new Gson();
-        Dingdan person = gson.fromJson(data, Dingdan.class);
+        DingdanPO person = gson.fromJson(data, DingdanPO.class);
         if ("update".equals(person.getAction())) {
             updateRecord(request, response);
         } else {
@@ -100,7 +100,7 @@ public class dingdanController extends HttpServlet {
             String[] datasql = ConfigurationLoader.a();
             DingdanPO person = gson.fromJson(parameterValue, DingdanPO.class);
             try (Connection connection = DriverManager.getConnection(datasql[0], datasql[1], datasql[2])) {
-                String sql = "INSERT INTO dingdan (zt, caidan, price, created_by, created_at, updated_at, acl, position,phone) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                String sql = "INSERT INTO dingdan (zt, caidan, price, created_by, created_at, updated_at, acl, position,phone) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)";
                 try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
                     // Convert ArrayList to JSON string

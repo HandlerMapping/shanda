@@ -2,38 +2,42 @@ package org.example.controller;
 
 import com.google.gson.Gson;
 import lombok.SneakyThrows;
+import org.example.ConfigurationLoader;
 import org.example.entity.Miniuser;
 import org.example.entity.Position;
 import org.example.entity.Shop;
+import org.example.entity.ShopPO;
 import org.example.jdbc.DatabaseConnection;
 
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/home")
-public class HomeController {
+public class HomeController extends HttpServlet {
 
     DatabaseConnection dao = new DatabaseConnection();
 
-    public void selectOne(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void selectAll(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        List<Shop> entities = dao.getEntities(null,"shop", Shop.class,null);
+        List<Shop> entities = dao.getEntities(null,"shop", Shop.class,"");
         Gson gson = new Gson();
         String json = gson.toJson(entities);
         response.getWriter().write(json);
     }
 
-    public void selectAll(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void selectOne(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         String id = request.getParameter("id");
-        List<Shop> entities = dao.getEntities(id,"shop", Shop.class,id);
+        List<Shop> entities = dao.getEntities(id,"shop", Shop.class,"id");
         Gson gson = new Gson();
         String json = gson.toJson(entities);
         response.getWriter().write(json);
@@ -45,8 +49,9 @@ public class HomeController {
 //        } catch (ClassNotFoundException e) {
 //            throw new RuntimeException(e);
 //        }
+//        String[] datasql = ConfigurationLoader.a();
 //        List<T> entities = new ArrayList<>();
-//        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD)) {
+//        try (Connection connection = DriverManager.getConnection(datasql[0], datasql[1], datasql[2])) {
 //            DatabaseMetaData metaData = connection.getMetaData();
 //            ResultSet resultSet = metaData.getColumns(null, null, tableName, null);
 //
@@ -54,7 +59,7 @@ public class HomeController {
 //            while (resultSet.next()) {
 //                columnNames.add(resultSet.getString("COLUMN_NAME"));
 //            }
-//            StringBuffer sql = new StringBuffer("SELECT * FROM " + tableName);
+//            StringBuffer sql = new StringBuffer("SELECT shopname,id, FROM " + tableName);
 //            if (where != null){
 //                sql.append(" WHERE openId = '"+where+"';");
 //            }
@@ -72,14 +77,30 @@ public class HomeController {
 //        return entities;
 //    }
 
+//    public static  <T> T mapResultSetToEntity(ResultSet resultSet, List<String> columnNames, Class<T> clazz) throws SQLException {
+//        try {
+//            T entity = clazz.getDeclaredConstructor().newInstance();
+//            for (String columnName : columnNames) {
+//                try {
+//                    Field field = clazz.getDeclaredField(columnName);
+//                    field.setAccessible(true);
+//                    Object value = resultSet.getObject(columnName);
+//                    field.set(entity, value);
+//                } catch (NoSuchFieldException ignored) {
+//                }
+//            }
+//            return entity;
+//        } catch (Exception e) {
+//            throw new RuntimeException("Failed to map ResultSet to entity", e);
+//        }
+//    }
+
     @SneakyThrows
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        String data = request.getParameter("data");
-        Gson gson = new Gson();
-        Position person = gson.fromJson(data, Position.class);
-        if ("one".equals(person.getAction())) {
+        String data = request.getParameter("action");
+        if ("one".equals(data)) {
             selectOne(request, response);
         } else {
             selectAll(request, response);
@@ -109,3 +130,4 @@ public class HomeController {
         response.getWriter().write("Response Data");
     }
 }
+

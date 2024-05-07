@@ -29,8 +29,10 @@ public class DatabaseConnection {
                 columnNames.add(resultSet.getString("COLUMN_NAME"));
             }
             StringBuffer sql = new StringBuffer("SELECT * FROM " + tableName);
-            if (where != null){
+            if (where != null && !name.equals("id")){
                 sql.append(" WHERE openId = '"+where+"';");
+            }else if (!name.equals("")){
+                sql.append(" WHERE id = "+Integer.valueOf(where)+";");
             }
             try (Statement statement = connection.createStatement();
                  ResultSet queryResult = statement.executeQuery(String.valueOf(sql))) {
