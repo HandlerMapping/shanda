@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class DatabaseConnection {
-    String[] datasql = ConfigurationLoader.a();
+    static String[] datasql = ConfigurationLoader.a();
 
     public <T> List<T> getEntities(String where,String tableName, Class<T> clazz,String name) {
 
@@ -80,6 +80,19 @@ public class DatabaseConnection {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static int sql(String sql){
+        try (Connection connection = DriverManager.getConnection(datasql[0], datasql[1], datasql[2]);
+             Statement statement = connection.createStatement()) {
+
+            // 执行更新操作
+            int rowsAffected = statement.executeUpdate(sql);
+           return rowsAffected;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     public <T> List<T> postEntities(Object[] columnNames, String tableName, Class<T> clazz) {

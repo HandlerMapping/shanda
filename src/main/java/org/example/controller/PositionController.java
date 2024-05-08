@@ -115,21 +115,10 @@ public class PositionController extends HttpServlet{
         String data = new String(request.getParameter("data").getBytes("ISO-8859-1"), "UTF-8");
         Gson gson = new Gson();
         Position person = gson.fromJson(data, Position.class);
-
-
         // 从配置文件加载数据库连接信息
         String sql = "DELETE  FROM posi WHERE  userposi = '"+person.getUserposi()+"'AND openid = '"+person.getOpenid()+"';";
+            response.getWriter().write(DatabaseConnection.sql(sql));
 
-        String[] datasql = ConfigurationLoader.a();
-        try (Connection connection = DriverManager.getConnection(datasql[0], datasql[1], datasql[2]);
-             Statement statement = connection.createStatement()) {
-
-            // 执行更新操作
-            int rowsAffected = statement.executeUpdate(sql);
-            response.getWriter().write(rowsAffected);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
 }

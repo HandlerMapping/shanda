@@ -34,4 +34,8 @@ public class Shop {
 
     private String acl;
 
+    private String name;
+
+    private Integer typeid;
+
 }

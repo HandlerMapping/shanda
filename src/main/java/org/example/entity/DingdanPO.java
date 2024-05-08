@@ -39,4 +39,8 @@ public class DingdanPO {
 
     private String  action;
 
+    private Integer shopId;
+
+    private String name;
+
 }

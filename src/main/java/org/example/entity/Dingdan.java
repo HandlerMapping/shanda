@@ -19,7 +19,7 @@ public class Dingdan {
 
     private Integer id;
 
-    private String zt;
+    private Integer zt;
 
     private String caidan;
 
@@ -40,5 +40,7 @@ public class Dingdan {
     private String  action;
 
     private Integer shopId;
+
+    private String name;
 
 }

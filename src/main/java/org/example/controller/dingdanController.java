@@ -25,13 +25,13 @@ import java.util.Properties;
 
 
 @WebServlet("/dingdan")
-public class dingdanController extends HttpServlet {
+public class DingdanController extends HttpServlet {
 
     DatabaseConnection dao = new DatabaseConnection();
     private static final String PROPERTIES_FILE = "sql.properties";
 
    @SneakyThrows
-   public dingdanController() {
+   public DingdanController() {
        Class.forName("com.mysql.cj.jdbc.Driver");
    }
     @SneakyThrows
@@ -100,7 +100,7 @@ public class dingdanController extends HttpServlet {
             String[] datasql = ConfigurationLoader.a();
             DingdanPO person = gson.fromJson(parameterValue, DingdanPO.class);
             try (Connection connection = DriverManager.getConnection(datasql[0], datasql[1], datasql[2])) {
-                String sql = "INSERT INTO dingdan (zt, caidan, price, created_by, created_at, updated_at, acl, position,phone) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)";
+                String sql = "INSERT INTO dingdan (zt, caidan, price, created_by, created_at, updated_at, acl, position,phone,shopId,name) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?,?)";
                 try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
                     // Convert ArrayList to JSON string
@@ -114,6 +114,8 @@ public class dingdanController extends HttpServlet {
                     preparedStatement.setString(7, person.getAcl());
                     preparedStatement.setString(8, person.getPosition());
                     preparedStatement.setString(9, person.getPhone());
+                    preparedStatement.setInt(10, person.getShopId());
+                    preparedStatement.setString(11, person.getName());
                     // 执行SQL插入操作
                     int rowsAffected = preparedStatement.executeUpdate();
                     if (rowsAffected > 0) {
@@ -141,16 +143,7 @@ public class dingdanController extends HttpServlet {
         // 从配置文件加载数据库连接信息
         String sql = "UPDATE dingdan SET zt = "+zt+" WHERE id = "+id;
 
-        String[] datasql = ConfigurationLoader.a();
-        try (Connection connection = DriverManager.getConnection(datasql[0], datasql[1], datasql[2]);
-             Statement statement = connection.createStatement()) {
-
-            // 执行更新操作
-            int rowsAffected = statement.executeUpdate(sql);
-            response.getWriter().write(rowsAffected);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        response.getWriter().write(DatabaseConnection.sql(sql));
     }
 
 }

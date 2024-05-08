@@ -35,9 +35,6 @@ public class shopController extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         String parameterValue = request.getParameter("parameterName");
-        System.out.println(parameterValue);
-        String openId = request.getParameter("openId");
-
         if (parameterValue != null) {
             Gson gson = new Gson();
             Miniuser person = gson.fromJson(parameterValue, Miniuser.class);
